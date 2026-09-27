@@ -1,0 +1,120 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | {% trans "Transmisión Exitosa" %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            background: linear-gradient(145deg, #2c3e50 12%,#bdc3c7 40%, #bdc3c7 20%, #2c3e50 60%);
+            min-height: 100vh; width: 100vw;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .tarjeta-exito {
+            max-width: 600px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.75);
+            border: 2px solid #00fff0;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 255, 240, 0.3);
+            text-align: center;
+        }
+
+        .icono-check {
+            font-size: 4rem;
+            color: #00fff0;
+            text-shadow: 0 0 20px rgba(0, 255, 240, 0.6);
+            margin-bottom: 20px;
+            animation: pulso 2s infinite;
+        }
+
+        h1 {
+            color: #00fff0;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        p {
+            color: #ccc;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .codigo-rastreo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(0, 255, 240, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #00fff0;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .btn-inicio {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(0, 255, 240, 0.1);
+            border: 1px solid #00fff0;
+            color: #00fff0;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-inicio:hover {
+            background: #00fff0;
+            color: black;
+            box-shadow: 0 0 20px #00fff0;
+        }
+
+        @keyframes pulso {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); text-shadow: 0 0 30px #00fff0; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tarjeta-exito">
+        <div class="icono-check">✔</div>
+        <h1>{% trans "PROTOCOLO DE PAGO COMPLETADO" %}</h1>
+        <p>
+            {% blocktrans %}¡Muchas gracias por tu compra, <span id="nombre-dinamico" style="color: #00fff0; font-weight: bold;">Cliente</span>! El sistema ha verificado la transacción virtual de manera satisfactoria. Tus dispositivos de última generación ya están listos en el hangar de envío.{% endblocktrans %}
+        </p>
+
+        <div class="codigo-rastreo">
+            {% trans "CÓDIGO SECURE-ID" %}: #TECH-{{ request.session.get_expiry_age }}
+        </div>
+
+        <br>
+        <a href="{% url 'index' %}" class="btn-inicio">{% trans "VOLVER AL MENÚ PRINCIPAL" %}</a>
+    </div>
+
+    <script>
+    // Leemos el nombre guardado en la pantalla anterior
+    const nombreGuardado = localStorage.getItem('nombre_comprador');
+    if (nombreGuardado) {
+        document.getElementById('nombre-dinamico').innerText = nombreGuardado;
+    }
+    </script>
+
+</body>
+</html>

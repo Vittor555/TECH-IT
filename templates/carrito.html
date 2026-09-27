@@ -1,0 +1,250 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | Mi Carrito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            background: linear-gradient(0deg, #2c3e50 12%, #00fff0, #bdc3c7 20%, #2c3e50 60%);
+            min-height: 100vh; width: 100vw;
+            font-family: 'Bebas neue', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .contenedor-carrito {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 240, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00fff0;
+            text-shadow: 0 0 15px rgba(0, 255, 240, 0.6);
+            margin-bottom: 40px;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        /* --- ESTILOS DE LA TABLA --- */
+        .tabla-carrito {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .tabla-carrito th {
+            border-bottom: 2px solid #00fff0;
+            padding: 15px;
+            text-align: left;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: #00fff0;
+        }
+
+        .tabla-carrito td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: middle;
+        }
+
+        .img-producto {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
+        }
+
+        /* --- BOTONES DE ACCIÓN (+, -, ELIMINAR) --- */
+        .btn-accion {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: rgba(0, 255, 240, 0.1);
+            border: 1px solid #00fff0;
+            color: #00fff0;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin: 0 5px;
+        }
+
+        .btn-accion:hover {
+            background: #00fff0;
+            color: black;
+            box-shadow: 0 0 10px #00fff0;
+        }
+
+        .btn-eliminar {
+            color: #ff4d4d;
+            border-color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.1);
+        }
+
+        .btn-eliminar:hover {
+            background: #ff4d4d;
+            color: white;
+            box-shadow: 0 0 10px #ff4d4d;
+        }
+
+        /* --- CONTENEDOR TOTAL Y CIERRE --- */
+        .zona-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid rgba(0, 255, 240, 0.3);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .precio-total {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-volver {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #00fff0;
+            text-decoration: none;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(0, 212, 255, 0.7);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(3px);
+        }
+
+        .btn-volver:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .btn-limpiar {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border: 2px solid #ff4d4d;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-limpiar:hover {
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px rgba(250, 0, 0, 0.4);
+        }
+
+        .btn-pagar {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 35px;
+            background: rgba(0, 255, 240, 0.1);
+            border: 2px solid #00fff0;
+            color: #00fff0;
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: 2px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 240, 0.2);
+        }
+
+        .btn-pagar:hover {
+            background: #00fff0;
+            color: black;
+            box-shadow: 0 0 30px #00fff0;
+            transform: scale(1.03);
+        }
+
+        .carrito-vacio {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+
+    <a href="{% url 'index' %}" class="btn-volver">〈 {% trans "MENÚ PRINCIPAL" %}</a>
+
+<div class="contenedor-carrito">
+    <h1>{% trans "SISTEMA DE PEDIDOS | MI CARRITO" %}</h1>
+
+    {% if carrito %}
+        <table class="tabla-carrito">
+            <thead>
+                <tr>
+                    <th>{% trans "PRODUCTO" %}</th>
+                    <th>{% trans "NOMBRE" %}</th>
+                    <th>{% trans "PRECIO" %}</th>
+                    <th style="text-align: center;">{% trans "CANTIDAD" %}</th>
+                    <th>{% trans "TOTAL" %}</th>
+                    <th style="text-align: center;">{% trans "ACCIONES" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in carrito.items %}
+                    <tr>
+                        <td><img src="{% static value.imagen %}" class="img-producto" alt="{{ value.nombre }}"></td>
+                        <td style="font-family: 'Arial', sans-serif; font-weight: bold;">{{ value.nombre }}</td>
+                        <td>{{ value.precio }} €</td>
+                        <td style="text-align: center; font-weight: bold; font-size: 1.1rem;">{{ value.cantidad }}</td>
+                        <td style="color: #00fff0; font-weight: bold;">{{ value.precio }} €</td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'carrito_agregar' value.producto_id %}" class="btn-accion">+</a>
+                            <a href="{% url 'carrito_restar' value.producto_id %}" class="btn-accion">-</a>
+                            <a href="{% url 'carrito_eliminar' value.producto_id %}" class="btn-accion btn-eliminar">🗑</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="zona-total">
+            <a href="{% url 'carrito_limpiar' %}" class="btn-limpiar">{% trans "VACIAR SISTEMA" %}</a>
+            <div>
+                <span style="color: #888; margin-right: 15px; font-size: 1.1rem;">{% trans "TOTAL GENERAL" %}:</span>
+                <span class="precio-total">{{ total_general }} €</span>
+            </div>
+        </div>
+
+        <div style="text-align: right; margin-top: 30px;">
+            <a href="{% url 'checkout' %}" class="btn-pagar">{% trans "PROCESAR PEDIDO" %} ➔</a>
+        </div>
+
+    {% else %}
+        <div class="carrito-vacio">
+            <p>{% trans "EL ALMACÉN VIRTUAL ESTÁ VACÍO" %}</p>
+            <p style="font-size: 0.9rem; color:  #00fff0; margin-top: 10px;">{% trans "Añade algún dispositivo desde el catálogo para iniciar el protocolo de compra." %}</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

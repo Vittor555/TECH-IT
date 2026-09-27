@@ -1,0 +1,335 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | {% trans "Bienvenido" %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #000;
+        font-family: 'Bebas Neue', sans-serif;
+    }
+
+
+    .interfaz-menu, .boton-carrito-flotante {
+        opacity: 0 !important;
+        visibility: hidden;
+        transition: opacity 1.2s ease, visibility 1.2s;
+    }
+
+
+    #video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1.6s ease;
+    }
+
+    /* 3. Cuando el JS añade la clase 'terminado', todo aparece */
+    body.terminado #video-background,
+    body.terminado .interfaz-menu,
+    body.terminado .boton-carrito-flotante {
+        opacity: 1 !important;
+        visibility: visible;
+    }
+
+
+    .interfaz-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 4vh;
+        align-items: center;
+        padding-left: 23%;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .interfaz-menu > * {
+        pointer-events: auto; /* Esto le devuelve el clic a los elementos hijos directos */
+    }
+
+    .contenedor-botones {
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        width: fit-content;
+        align-items: flex-start;
+    }
+
+    .brand-name {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3rem;
+        color: #fff;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        text-shadow: 0 0 25px #00fff0;
+        letter-spacing: 5px;
+    }
+
+    .btn-menu {
+        background: rgba(0, 255, 240, 0.2);
+        border: 2px solid rgba(30, 255, 240, 0.9);
+        color: black;
+        padding: 8px 0;
+        width: 160px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        letter-spacing: 2px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        text-align: center;
+        display: inline-block;
+        box-sizing: border-box;
+    }
+
+    .btn-menu:hover {
+        background: rgba(0, 255, 240, 0.2);
+        border-color: #00fff0;
+        box-shadow: 0 0 20px rgba(0, 255, 240, 0.9);
+        transform: scale(1.05) translateX(-5px);
+    }
+
+    .form-busqueda {
+        width: 100%;
+    }
+
+    .input-busqueda {
+        background: rgba(0, 255, 240, 0.1);
+        border: 2px solid rgba(30, 255, 240, 0.9);
+        color: black;
+        padding: 8px 15px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        width: 160px;
+        transition: all 0.3s ease;
+        outline: none;
+        backdrop-filter: blur(10px);
+        box-sizing: border-box;
+
+    }
+
+    .input-busqueda:focus {
+        border-color: #00fff0;
+        box-shadow: 0 0 15px rgba(0, 255, 240, 0.8);
+        background: rgba(0, 255, 240, 0.2);
+        width: 230px;
+    }
+
+    .input-busqueda::placeholder {
+        color: black;
+        opacity: 1;
+    }
+
+    .input-busqueda:focus::placeholder {
+        color: #ffffff;
+    }
+
+    .boton-carrito-flotante {
+        position: absolute;
+        top: 530px;
+        right: 40px;
+        color: #00fff0;
+        text-decoration: none;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        border: 1px solid rgba(0, 212, 255, 0.7);
+        padding: 10px 20px;
+        border-radius: 30px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        transition: all 0.4s ease, opacity 1.2s ease, visibility 1.2s;
+        z-index: 1000;
+        box-shadow: 0 0 15px rgba(0, 255, 240, 0.1);
+        opacity: 0 !important;
+        visibility: hidden;
+    }
+
+    body.terminado .boton-carrito-flotante {
+        opacity: 1 !important;
+        visibility: visible;
+    }
+
+    .boton-carrito-flotante:hover {
+        box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+        background: #00fff0;
+        color: black;
+        transform: translateY(-2px);
+    }
+
+    .bloque-redes {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 160px;
+        margin-top: 20px;
+        pointer-events: auto;
+    }
+
+    .icono-red {
+        color: #2B2C49;
+        font-size: 1.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 0 5px rgba(0, 255, 240, 0.2));
+    }
+
+    .icono-red:hover {
+        color: #0083fe;
+        transform: scale(1.4) translateY(-3px);
+        filter: drop-shadow(0 0 12px #0083fe);
+    }
+
+    /* LOADER CYBERPUNK */
+    #loader-cyber {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #0d1117;
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.4s ease, visibility 0.4s;
+    }
+
+    #loader-cyber.ocultando {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .loader-texto {
+        font-family: 'Orbitron', sans-serif;
+        color: #00fff0;
+        font-size: 1.2rem;
+        animation: parpadeo-carga 0.9s infinite alternate;
+    }
+
+
+
+    @keyframes parpadeo-carga {
+        from { opacity: 0.2; }
+        to { opacity: 1; }
+    }
+
+</style>
+
+</head>
+<body>
+
+    <div id="loader-cyber"><div class="loader-texto">{% trans "CONNECTION..." %}</div></div>
+
+    <a href="{% url 'carrito_ver' %}" class="boton-carrito-flotante">🛒 {% trans "MI CARRITO" %}</a>
+
+    <video  muted playsinline id="video-background">
+        <source src="{% static 'intro.mp4' %}" type="video/mp4">
+    </video>
+
+    <div class="interfaz-menu" id="menu">
+        {% include 'selector_idiomas.html' %}
+        <h1 class="brand-name">Tech-IT</h1>
+        <div class="contenedor-botones">
+            <a href="{% url 'smartphones' %}" class="btn-menu">{% trans "Smartphones" %}</a>
+            <a href="{% url 'portatiles' %}" class="btn-menu">{% trans "Portatiles" %}</a>
+            <a href="{% url 'nosotros' %}" class="btn-menu">{% trans "Nosotros" %}</a>
+            <form action="{% url 'buscar' %}" method="GET" class="form-busqueda">
+                <input type="text" name="q" placeholder="🔍 {% trans 'BUSQUEDA' %}" class="input-busqueda" required>
+            </form>
+            <div class="bloque-redes">
+                <a href="{% url 'redes_sociales' %}" class="icono-red"><i class="fab fa-facebook-f"></i></a>
+                <a href="{% url 'redes_sociales' %}" class="icono-red"><i class="fab fa-instagram"></i></a>
+                <a href="{% url 'redes_sociales' %}" class="icono-red"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById('video-background');
+        const loader = document.getElementById('loader-cyber');
+        const clave = 'introVisto';
+
+        function quitarLoader() {
+            if (loader && loader.style.display !== 'none') {
+                loader.classList.add('ocultando');
+                setTimeout(() => { loader.style.display = 'none'; }, 400);
+            }
+        }
+
+
+
+        // CASO: Ya se vio
+        if (sessionStorage.getItem(clave) === 'true') {
+            if (loader) loader.style.display = 'flex';// Quitamos el loader inmediatamente
+
+            setTimeout(() => {
+                document.body.classList.add('terminado'); // Esto muestra los botones y menú
+                quitarLoader(); // Esto ejecuta tu animación de desvanecimiento
+            }, 1500);
+
+            // Función para saltar al final una vez que el video esté listo
+            const irAlFinal = () => {
+                video.currentTime = video.duration - 0.1;
+                video.pause();
+            };
+
+            if (video.readyState >= 1) {
+                // Si ya cargó los datos, saltamos directamente
+                irAlFinal();
+            } else {
+                // Si aún no, esperamos a que cargue los metadatos
+                video.addEventListener('loadedmetadata', irAlFinal);
+            }
+        }
+
+
+        // CASO: Primera vez
+        else {
+            video.play();
+            video.addEventListener('playing', () => {
+                video.style.opacity = '1'; // HACEMOS EL VIDEO VISIBLE
+                quitarLoader();
+            });
+
+            video.addEventListener('ended', () => {
+                sessionStorage.setItem(clave, 'true');
+                document.body.classList.add('terminado');
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

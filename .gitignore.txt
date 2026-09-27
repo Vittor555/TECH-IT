@@ -1,0 +1,9 @@
+*.pyc
+__pycache__/
+.venv/
+.idea/
+.env
+db.sqlite3
+.vscode/
+Contraseña.docx
+Proyecto Final Plantilla Viktor Piniehin.pdf

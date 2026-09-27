@@ -1,0 +1,189 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | {{ marca|upper }}</title>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(0deg, #bdc3c7 10%, #2c3e50 80%);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Bebas neue', sans-serif;
+            }
+
+        .btn-volver {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 100; /* Siempre por encima de todo */
+            color: #00fff0;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.4s ease;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(3px);
+            }
+
+        .btn-volver:hover {
+            color: #00fff0;
+            border-color: #00fff0;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(-5px); /* Pequeño movimiento a la izquierda */
+            }
+
+        .btn-volver .flecha {
+            margin-right: 8px;
+            font-weight: bold;
+            }
+
+
+
+        /* Contenedor del Título */
+        .contenedor-principal {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+
+        .titulo-marca {
+            font-size: 3rem;
+            font-family: bebas neue;
+            text-transform: none;
+            margin: 0;
+
+        /* --- AQUÍ ESTÁ EL DEGRADADO --- */
+            background: #00fff0;
+            -webkit-background-clip: text;  /* Recorta el fondo con la forma de las letras */
+            -webkit-text-fill-color: transparent; /* Hace que el color original de la letra desaparezca */
+
+        /* Opcional: añade un sombreado suave para que resalte más */
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+            }
+
+
+
+        @keyframes cruzar {
+            0% { left: -10%; opacity: 0; transform: scaleX(2); }
+            20% { opacity: 1; }
+            100% { left: 110%; opacity: 0; transform: scaleX(5); }
+        }
+
+        /* Contenedor para los portatiles que aparecerán */
+        .grid-productos {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinea los contenedores por arriba */
+            gap: 40px;
+            margin-top: 100px;
+            padding: 0 50px;
+        }
+        /* Añade este bloque nuevo para controlar las imágenes: */
+        .item-producto img {
+            height: 100px;      /* Altura fija para que todos los 'suelos' coincidan */
+            width: auto;        /* Mantiene la proporción */
+            object-fit: contain; /* Evita que se estiren */
+            display: block;
+            margin: 0 auto 15px auto; /* Centra y da espacio al texto */
+        }
+
+        /* Asegura que el contenedor tenga un ancho fijo para que no bailen */
+        .item-producto {
+            width: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: aparecer 0.6s forwards;
+            text-align: center;
+        }
+
+
+        .nombre-prod {
+            font-family: 'bebas neue', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #00fff0;
+            }
+        .precio-prod {
+            font-family: 'bebas neue', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: white;
+            margin-top: 0;
+             }
+
+        @keyframes aparecer {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .boton-carrito-flotante {
+            position: absolute;
+            top: 530px;
+            right: 40px;
+            color: #00fff0;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border: 1px solid rgba(0, 212, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 30px; /* Estilo cápsula */
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            transition: all 0.4s ease;
+            z-index: 1000; /* Asegura que se quede por encima del fondo */
+            box-shadow: 0 0 15px rgba(0, 255, 240, 0.1);
+        }
+
+        .boton-carrito-flotante:hover {
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+            background: #00fff0;
+            color: black;
+            transform: translateY(-2px);
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <a href="{% url 'carrito_ver' %}" class="boton-carrito-flotante">🛒 {% trans "MI CARRITO" %}</a>
+
+    <a href="{% url 'portatiles' %}" class="btn-volver">〈 {% trans "VOLVER AL ALMACÉN" %}</a>
+
+    <div class="contenedor-principal">
+        <h1 class="titulo-marca">{{ marca }}</h1>
+
+        <div class="grid-productos">
+            {% for p in productos %}
+                <a href="{% url 'detalle_producto' p.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="item-producto" style="animation-delay: {{ forloop.counter0|add:0.5 }}s;">
+                        <img src="{% static p.imagen %}" alt="{{ p.nombre }}">
+                        <p class="nombre-prod">{{ p.nombre }}</p>
+                        <p class="precio-prod">{{ p.precio }} €</p>
+                    </div>
+                </a>
+            {% empty %}
+                <p style="color: white; grid-column: 1 / -1;">
+                    {% blocktrans with marca=marca %}Próximamente más productos de {{ marca }}{% endblocktrans %}
+                </p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+</html>

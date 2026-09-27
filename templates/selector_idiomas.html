@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<style>
+
+    .selector-idiomas-container {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-idioma {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid #00fff0;
+        color: #00fff0;
+        padding: 5px 10px;
+        margin: 0 5px;
+        cursor: pointer;
+        font-family: 'Bebas Neue', sans-serif;
+        transition: transform 0.3s ease, text-shadow 0.3s ease;
+
+    }
+
+    .btn-idioma:hover {
+        background: #00fff0;
+        transform: scale(1.1) translateY(-1px);
+        color: #000;
+        box-shadow: 0 0 10px #00fff0;
+    }
+</style>
+
+<div class="selector-idiomas-container">
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+        <button type="submit" name="language" value="es" class="btn-idioma">ES</button>
+        <button type="submit" name="language" value="en" class="btn-idioma">EN</button>
+
+    </form>
+</div>

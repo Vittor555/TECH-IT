@@ -1,0 +1,203 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | {% trans "El Árbol del Conocimiento" %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+         margin: 0;
+         padding: 0;
+         background: #000;
+         overflow: hidden;
+         font-family: 'Bebas neue', sans-serif;
+         }
+
+
+         .contenedor-arbol {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        }
+
+
+         #video-arbol {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            pointer-events: none;
+
+        }
+
+        .interfaz-marcas {
+            position: absolute;
+            top: 39%; left: 49.8%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.2s ease, visibility 1.2s;
+
+        }
+
+
+        body.terminado .interfaz-marcas {
+            display: flex;
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        .boton-marca {
+            padding: 5px 15px;
+            color: #002E5D;
+            background: transparent;
+            border: none;
+            text-decoration: none;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .boton-marca:hover {
+            transform: scale(1.2);
+            text-shadow: 0 0 3px #00fff0, 0 0 45px #00fff0;
+        }
+
+        .btn-volver {
+            position: absolute;
+            top: 30px; left: 30px;
+            z-index: 100;
+            color: #00fff0;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.4s ease;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(3px);
+        }
+
+        .btn-volver:hover {
+            color: #00fff0;
+            border-color: #00fff0;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .btn-volver .flecha { margin-right: 8px; font-weight: bold; }
+
+         @keyframes aparecerMenu { to { opacity: 1; } }
+
+        #loader-cyber {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #0d1117;
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-texto {
+            font-family: 'Bebas neue', sans-serif; color: #00fff0;
+            font-size: 1.2rem;
+            animation: parpadeo-carga 0.8s infinite alternate;
+        }
+
+        /* Esto asegura que el loader empiece ocultando todo el cuerpo hasta que el script tome el control */
+        body:not(.terminado) {
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader-cyber"><div class="loader-texto">{% trans "CONNECTION..." %}</div></div>
+
+    <div class="contenedor-arbol">
+        <a href="{% url 'index' %}" class="btn-volver"><span class="flecha">〈</span> {% trans "VOLVER" %}</a>
+
+        <video autoplay muted playsinline id="video-arbol">
+            <source src="{% static 'Techno-arbol.mp4' %}" type="video/mp4">
+        </video>
+
+        <div class="interfaz-marcas">
+            <a href="{% url 'catalogo_smart' 'apple' %}" class="boton-marca">APPLE</a>
+            <a href="{% url 'catalogo_smart' 'samsung' %}" class="boton-marca">SAMSUNG</a>
+            <a href="{% url 'catalogo_smart' 'xiaomi' %}" class="boton-marca">XIAOMI</a>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById('video-arbol');
+        const loader = document.getElementById('loader-cyber');
+        const clave = 'arbolVisto';
+
+        function quitarLoader() {
+            if (loader && loader.style.display !== 'none') {
+                loader.classList.add('ocultando');
+                setTimeout(() => { loader.style.display = 'none'; }, 400);
+            }
+        }
+
+        // CASO: Ya se vio
+        if (sessionStorage.getItem(clave) === 'true') {
+            if (loader) loader.style.display = 'flex'; // Quitamos el loader inmediatamente
+
+            // 2. Esperamos 800ms para asegurar que el usuario vea el loader y la transición sea suave
+            setTimeout(() => {
+                document.body.classList.add('terminado'); // Esto muestra los botones y menú
+                quitarLoader(); // Esto ejecuta tu animación de desvanecimiento
+            }, 1500);
+
+            // Función para saltar al final una vez que el video esté listo
+            const irAlFinal = () => {
+                video.currentTime = video.duration - 0.1;
+                video.pause();
+            };
+
+             if (video.readyState >= 1) {
+                // Si ya cargó los datos, saltamos directamente
+                irAlFinal();
+            } else {
+                // Si aún no, esperamos a que cargue los metadatos
+                video.addEventListener('loadedmetadata', irAlFinal);
+            }
+        }
+
+
+        // CASO: Primera vez
+        else {
+            video.play();
+            video.addEventListener('playing', () => {
+                quitarLoader();
+            });
+
+            video.addEventListener('ended', () => {
+                sessionStorage.setItem(clave, 'true');
+                document.body.classList.add('terminado');
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

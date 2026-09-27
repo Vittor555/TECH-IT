@@ -1,0 +1,272 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-02 18:04+0200\n"
+"PO-Revision-Date: 2026-06-02 18:08+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: English <en@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\core\settings.py:79
+msgid "Español"
+msgstr "Spanish"
+
+#: .\core\settings.py:80
+msgid "English"
+msgstr "English"
+
+#: .\core\settings.py:81
+msgid "Français"
+msgstr "French"
+
+#: .\templates\carrito.html:193
+msgid "MENÚ PRINCIPAL"
+msgstr "MAIN MENU"
+
+#: .\templates\carrito.html:196
+msgid "SISTEMA DE PEDIDOS | MI CARRITO"
+msgstr "ORDER SYSTEM | MY CART"
+
+#: .\templates\carrito.html:202
+msgid "PRODUCTO"
+msgstr "PRODUCT"
+
+#: .\templates\carrito.html:203
+msgid "NOMBRE"
+msgstr "NAME"
+
+#: .\templates\carrito.html:204
+msgid "PRECIO"
+msgstr "PRICE"
+
+#: .\templates\carrito.html:205
+msgid "CANTIDAD"
+msgstr "QUANTITY"
+
+#: .\templates\carrito.html:206
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#: .\templates\carrito.html:207
+msgid "ACCIONES"
+msgstr "ACTIONS"
+
+#: .\templates\carrito.html:229
+msgid "VACIAR SISTEMA"
+msgstr "EMPTY SYSTEM"
+
+#: .\templates\carrito.html:231
+msgid "TOTAL GENERAL"
+msgstr "GRAND TOTAL"
+
+#: .\templates\carrito.html:237
+msgid "PROCESAR PEDIDO"
+msgstr "PROCESS ORDER"
+
+#: .\templates\carrito.html:242
+msgid "EL ALMACÉN VIRTUAL ESTÁ VACÍO 🤖📦"
+msgstr "THE VIRTUAL WAREHOUSE IS EMPTY 🤖📦"
+
+#: .\templates\carrito.html:243
+msgid "Añade algún dispositivo desde el catálogo para iniciar el protocolo de compra."
+msgstr "Add a device from the catalog to start the purchase protocol."
+
+#: .\templates\checkout.html:7
+msgid "Protocolo de Pago"
+msgstr "Payment Protocol"
+
+#: .\templates\checkout.html:177
+msgid "PROCESANDO TRANSACCIÓN BANCARIA VIRTUAL..."
+msgstr "PROCESSING VIRTUAL BANK TRANSACTION..."
+
+#: .\templates\checkout.html:184
+msgid "DATOS DE ENVÍO"
+msgstr "SHIPPING DATA"
+
+#: .\templates\checkout.html:186
+msgid "NOMBRE COMPLETO"
+msgstr "FULL NAME"
+
+#: .\templates\checkout.html:187 .\templates\checkout.html:248
+msgid "Ej: Viktor Malv"
+msgstr "Ex: Viktor Malv"
+
+#: .\templates\checkout.html:190
+msgid "DIRECCIÓN DE ENTREGA"
+msgstr "DELIVERY ADDRESS"
+
+#: .\templates\checkout.html:191
+msgid "Calle, Número, Piso..."
+msgstr "Street, Number, Floor..."
+
+#: .\templates\checkout.html:195
+msgid "CIUDAD"
+msgstr "CITY"
+
+#: .\templates\checkout.html:199
+msgid "CÓDIGO POSTAL"
+msgstr "POSTAL CODE"
+
+#: .\templates\checkout.html:200
+msgid "Ej: 28001"
+msgstr "Ex: 28001"
+
+#: .\templates\checkout.html:204
+msgid "MÉTODO DE PAGO (SIMULACIÓN SECURE-TEC)"
+msgstr "PAYMENT METHOD (SECURE-TEC SIMULATION)"
+
+#: .\templates\checkout.html:206
+msgid "NÚMERO DE TARJETA"
+msgstr "CARD NUMBER"
+
+#: .\templates\checkout.html:211
+msgid "FECHA CADUCIDAD"
+msgstr "EXPIRY DATE"
+
+#: .\templates\checkout.html:215
+msgid "CÓDIGO CVV"
+msgstr "CVV CODE"
+
+#: .\templates\checkout.html:220
+msgid "EJECUTAR PAGO SEGURO"
+msgstr "EXECUTE SECURE PAYMENT"
+
+#: .\templates\checkout.html:225
+msgid "RESUMEN DEL PEDIDO"
+msgstr "ORDER SUMMARY"
+
+#: .\templates\checkout.html:234
+msgid "TOTAL A PAGAR"
+msgstr "TOTAL TO PAY"
+
+#: .\templates\detalles.html:213 .\templates\portatiles.html:140
+#: .\templates\smartphones.html:127
+msgid "VOLVER"
+msgstr "BACK"
+
+#: .\templates\detalles.html:265
+msgid "ESPECIFICACIONES:"
+msgstr "SPECIFICATIONS:"
+
+#: .\templates\detalles.html:266
+msgid "Categoría"
+msgstr "Category"
+
+#: .\templates\detalles.html:274
+msgid "AÑADIR AL CARRITO"
+msgstr "ADD TO CART"
+
+#: .\templates\index.html:8
+msgid "Bienvenido"
+msgstr "Welcome"
+
+#: .\templates\index.html:244 .\templates\portatiles.html:137
+#: .\templates\smartphones.html:124
+msgid "CONNECTION..."
+msgstr "CONNECTION..."
+
+#: .\templates\index.html:246 .\templates\productosportatil.html:164
+#: .\templates\productossmart.html:138
+msgid "MI CARRITO"
+msgstr "MY CART"
+
+#: .\templates\index.html:255
+msgid "Smartphones"
+msgstr "Smartphones"
+
+#: .\templates\index.html:256
+msgid "Portatiles"
+msgstr "Laptops"
+
+#: .\templates\index.html:257
+msgid "Nosotros"
+msgstr "About Us"
+
+#: .\templates\index.html:259
+msgid "BUSQUEDA"
+msgstr "SEARCH"
+
+#: .\templates\infonosotros.html:6
+msgid "QUIEN SOMOS"
+msgstr "ABOUT US"
+
+#: .\templates\pedido_confirmado.html:7
+msgid "Transmisión Exitosa"
+msgstr "Successful Transmission"
+
+#: .\templates\pedido_confirmado.html:98
+msgid "PROTOCOLO DE PAGO COMPLETADO"
+msgstr "PAYMENT PROTOCOL COMPLETED"
+
+#: .\templates\pedido_confirmado.html:100
+msgid "¡Muchas gracias por tu compra, <span id=\"nombre-dinamico\" style=\"color: #00fff0; font-weight: bold;\">Cliente</span>! El sistema ha verificado la transacción virtual de manera satisfactoria. Tus dispositivos de última generación ya están listos en el hangar de envío."
+msgstr "Thank you very much for your purchase, <span id=\"nombre-dinamico\" style=\"color: #00fff0; font-weight: bold;\">Customer</span>! The system has verified the virtual transaction successfully. Your next-generation devices are ready in the shipping hangar."
+
+#: .\templates\pedido_confirmado.html:104
+msgid "CÓDIGO SECURE-ID"
+msgstr "SECURE-ID CODE"
+
+#: .\templates\pedido_confirmado.html:108
+msgid "VOLVER AL MENÚ PRINCIPAL"
+msgstr "BACK TO MAIN MENU"
+
+#: .\templates\portatiles.html:7
+msgid "Almacén"
+msgstr "Warehouse"
+
+#: .\templates\productossmart.html:140
+msgid "VOLVER AL ÁRBOL"
+msgstr "BACK TO THE TREE"
+
+#: .\templates\productossmart.html:157
+#, python-format
+msgid "Próximamente más productos de %(marca)s"
+msgstr "More %(marca)s products coming soon"
+
+#: .\templates\resultados_busqueda.html:7
+msgid "Resultados"
+msgstr "Results"
+
+#: .\templates\resultados_busqueda.html:83 .\templates\socialred.html:72
+msgid "VOLVER AL MENÚ"
+msgstr "BACK TO MENU"
+
+#: .\templates\resultados_busqueda.html:85
+#, python-format
+msgid "RESULTADOS PARA: \"%(busqueda|upper)s\""
+msgstr "RESULTS FOR: \"%(busqueda|upper)s\""
+
+#: .\templates\resultados_busqueda.html:95
+msgid "Ver Detalles"
+msgstr "View Details"
+
+#: .\templates\resultados_busqueda.html:99
+msgid "No se encontraron dispositivos con ese nombre en el sistema. 🤖❌"
+msgstr "No devices found with that name in the system. 🤖❌"
+
+#: .\templates\smartphones.html:7
+msgid "El Árbol del Conocimiento"
+msgstr "The Tree of Knowledge"
+
+#: .\templates\socialred.html:7
+msgid "Redes Satelitales"
+msgstr "Satellite Networks"
+
+#: .\templates\socialred.html:70
+msgid "HERE WE STAY IN OUR SOCIAL REDS"
+msgstr "HERE WE STAY IN OUR SOCIAL NETWORKS"
+
+#: .\templates\socialred.html:71
+msgid "¡Bienvenido a nuestras plataformas de enlace virtual! Estás siendo redirigido a las frecuencias oficiales de TeCH-IT en la matriz. Pronto desplegaremos todo nuestro contenido holográfico aquí."
+msgstr "Welcome to our virtual link platforms! You are being redirected to the official TeCH-IT frequencies in the matrix. We will soon deploy all our holographic content here."

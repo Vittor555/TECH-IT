@@ -1,0 +1,68 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso al Sistema | Tech-IT</title>
+    <link rel="stylesheet" href="{% static 'css/tu-estilo.css' %}">
+</head>
+
+    <style>
+
+        .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+}
+
+.form-login {
+    background: rgba(0, 20, 20, 0.8);
+    padding: 40px;
+    border: 2px solid #00fff0;
+    border-radius: 10px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.input-login {
+    display: block;
+    width: 250px;
+    margin: 10px auto;
+    background: rgba(0, 255, 240, 0.1);
+    border: 1px solid #00fff0;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    transform: scale(1.05) translateX(-5px);
+}
+
+    </style>
+
+<body>
+    <div class="login-container">
+        <form method="POST" class="form-login">
+            {% csrf_token %}
+            <h2 style="color:#00fff0; font-family: 'Bebas Neue';">ACCESO AL NÚCLEO</h2>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: #ff0055; margin-bottom: 15px; font-weight: bold;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+
+            <input type="text" name="username" placeholder="Usuario" class="input-login" required>
+            <input type="password" name="password" placeholder="Contraseña" class="input-login" required>
+
+            <button type="submit" class="btn-menu">ENTRAR AL SISTEMA</button>
+
+            {% if request.POST and not user.is_authenticated %}
+                <p style="color: red; margin-top: 10px;">Credenciales incorrectas.</p>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>

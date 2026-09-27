@@ -1,0 +1,319 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | {{ producto.nombre }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+         body, html {
+            margin: 0; padding: 0;
+            background: linear-gradient(145deg, #2c3e50 12%,#bdc3c7 40%, #bdc3c7 20%, #2c3e50 60%);
+            height: 100vh; width: 100vw;
+            font-family: 'bebas neue', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .contenedor-detalles {
+            display: flex;
+            height: 100vh;
+            padding-top: 5px;
+        }
+
+        .columna-izq {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid rgba(0, 255, 240, 0.2);
+        }
+
+        .columna-izq img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
+        }
+
+        .contenedor-galeria {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 500px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        /* --- CÁPSULA HOLOGRÁFICA DE CONTROL INMÓVIL --- */
+        .barra-navegacion-cyber {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 35px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 240, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 240, 0.15);
+            width: fit-content;
+            backdrop-filter: blur(5px);
+        }
+
+        .miniaturas {
+            display: flex;
+            gap: 8px;
+        }
+
+        .thumb {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .thumb.activa {
+            border-color: #00fff0;
+            box-shadow: 0 0 10px #00fff0;
+            background: rgba(0, 255, 240, 0.1);
+        }
+
+        .flecha-nav {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: #00fff0;
+            border: 1px solid #00fff0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+
+        .flecha-nav:hover {
+            background: #00fff0;
+            color: black;
+            box-shadow: 0 0 15px #00fff0;
+        }
+
+        .columna-der {
+            flex: 1;
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nombre-titulo { font-size: 1.5rem; color: #00fff0; margin-bottom: 5px; }
+        .precio-grande { font-size: 2rem; font-weight: bold; margin-bottom: 5px; }
+
+        .descripcion-texto {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .btn-volver {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            color: #00fff0;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(0, 212, 255, 0.7);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(3px);
+        }
+
+        .btn-volver:hover {
+            color: #00fff0;
+            border-color: #00fff0;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .btn-comprar {
+            position: absolute;
+            right: 50px;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 1px solid #00fff0;
+            color: #00fff0;
+            font-family: 'bebas neue', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 240, 0.2);
+            width: fit-content;
+        }
+
+        .btn-comprar:hover {
+            background: transparent;
+            color: black;
+            box-shadow: 0 0 30px #00fff0;
+            transform: scale(1.03) translateX(-5px);
+        }
+
+        .icono-carrito { font-size: 1.1rem; }
+
+        .alerta-holograma {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #00fff0;
+            color: #00fff0;
+            padding: 15px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 255, 240, 0.6);
+            border-radius: 5px;
+            z-index: 9999;
+            transition: all 0.5s ease;
+        }
+
+        .parpadeo-led { animation: led-blink 0.8s infinite alternate; }
+        @keyframes led-blink {
+            from { opacity: 0.3; text-shadow: none; }
+            to { opacity: 1; text-shadow: 0 0 10px #00fff0; }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <a href="{% url 'volver_origen' %}" class="btn-volver">〈 {% trans "VOLVER" %}</a>
+
+
+    <div class="contenedor-detalles">
+
+        <div class="columna-izq">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+                <div class="contenedor-galeria">
+                     <img src="{% static producto.imagen %}" id="foto-principal" alt="{{ producto.nombre }}">
+                </div>
+
+                <div class="barra-navegacion-cyber">
+                    <button class="flecha-nav" onclick="cambiarImagen(-1)">&#10094;</button>
+
+                    <div class="miniaturas">
+                        <img src="{% static producto.imagen %}" class="thumb activa" onclick="mostrarEsta(0)">
+                        {% for img in producto.imagenes.all %}
+                            <img src="{% static img.imagen %}" class="thumb" onclick="mostrarEsta({{ forloop.counter }})">
+                        {% endfor %}
+                    </div>
+
+                    <button class="flecha-nav" onclick="cambiarImagen(1)">&#10095;</button>
+                </div>
+
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div id="notificacion-cyber" class="alerta-holograma">
+                    <span class="parpadeo-led">⚡</span> {{ message }}
+                </div>
+            {% endfor %}
+
+            <script>
+                setTimeout(function() {
+                    const alerta = document.getElementById('notificacion-cyber');
+                    if (alerta) {
+                        alerta.style.opacity = '0';
+                        alerta.style.transform = 'translateY(-20px)';
+                        setTimeout(() => alerta.remove(), 500);
+                    }
+                }, 3000);
+            </script>
+        {% endif %}
+
+        <div class="columna-der">
+            <p class="marca-producto">{{ producto.marca|upper }}</p>
+            <h1 class="nombre-titulo">{{ producto.nombre }}</h1>
+            <p class="precio-grande">{{ producto.precio }} €</p>
+
+            <div class="descripcion-texto">
+                <strong>{% trans "ESPECIFICACIONES:" %}</strong>
+                <p>{% trans "Categoría" %}: {{ producto.get_categoria_display }}</p>
+
+                <div class="texto-real">
+                    {{ producto.descripcion|linebreaks }}
+                </div>
+            </div>
+
+            <a href="{% url 'carrito_agregar' producto.id %}" class="btn-comprar">
+                <span class="icono-carrito">🛒</span> {% trans "AÑADIR AL CARRITO" %}
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        const imagenes = [
+            "{% static producto.imagen %}",
+            {% for img in producto.imagenes.all %}
+                "{% static img.imagen %}",
+            {% endfor %}
+        ];
+
+        let indiceActual = 0;
+        const fotoPrincipal = document.getElementById('foto-principal');
+
+        function cambiarImagen(direccion) {
+            indiceActual += direccion;
+
+            if (indiceActual >= imagenes.length) indiceActual = 0;
+            if (indiceActual < 0) indiceActual = imagenes.length - 1;
+
+            fotoPrincipal.src = imagenes[indiceActual];
+            actualizarMiniaturas();
+        }
+
+        function mostrarEsta(indice) {
+            indiceActual = indice;
+            fotoPrincipal.src = imagenes[indiceActual];
+            actualizarMiniaturas();
+        }
+
+        function actualizarMiniaturas() {
+            const thumbs = document.querySelectorAll('.thumb');
+            thumbs.forEach((t, i) => {
+                if(i === indiceActual) t.classList.add('activa');
+                else t.classList.remove('activa');
+            });
+        }
+    </script>
+
+</body>
+</html>

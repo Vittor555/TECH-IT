@@ -1,0 +1,266 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TeCH-IT | {% trans "Protocolo de Pago" %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            background: linear-gradient(145deg, #2c3e50 12%,#bdc3c7 40%, #bdc3c7 20%, #2c3e50 60%);
+            min-height: 100vh; width: 100vw;
+            font-family: 'Bebas nueu', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .contenedor-checkout {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        /* --- COLUMNA IZQUIERDA: FORMULARIO --- */
+        .panel-formulario {
+            flex: 2;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 255, 240, 0.3);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- COLUMNA DERECHA: RESUMEN --- */
+        .panel-resumen {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(0, 255, 240, 0.5);
+            padding: 25px;
+            border-radius: 10px;
+            height: fit-content;
+            position: sticky;
+            top: 40px;
+        }
+
+        h2 {
+            color: #00fff0;
+            text-shadow: 0 0 10px rgba(0, 255, 240, 0.4);
+            border-bottom: 1px solid rgba(0, 255, 240, 0.3);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .grupo-input {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 240, 0.4);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #00fff0;
+            box-shadow: 0 0 10px rgba(0, 255, 240, 0.5);
+            background: rgba(0, 255, 240, 0.05);
+        }
+
+        .fila-doble {
+            display: flex;
+            gap: 15px;
+        }
+
+        .fila-doble .grupo-input {
+            flex: 1;
+        }
+
+        /* --- RESUMEN DE COMPRA --- */
+        .item-resumen {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        .btn-confirmar {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 255, 240, 0.1);
+            border: 2px solid #00fff0;
+            color: #00fff0;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 240, 0.2);
+        }
+
+        .btn-confirmar:hover {
+            background: #00fff0;
+            color: black;
+            box-shadow: 0 0 25px #00fff0;
+        }
+
+        /* --- PANTALLA DE CARGA (PROCESANDO PAGO) --- */
+        #pantalla-carga {
+            display: none; /* Oculto al principio */
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner-hologram {
+            width: 80px; height: 80px;
+            border: 4px solid rgba(0, 255, 240, 0.1);
+            border-left-color: #00fff0;
+            border-radius: 50%;
+            animation: girar 1s linear infinite;
+            box-shadow: 0 0 20px rgba(0, 255, 240, 0.5);
+        }
+
+        @keyframes girar {
+            to { transform: rotate(360deg); }
+        }
+
+        .texto-carga {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #00fff0;
+            text-shadow: 0 0 10px #00fff0;
+            animation: parpadeo 1.5s infinite;
+        }
+
+        @keyframes parpadeo {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="pantalla-carga">
+        <div class="spinner-hologram"></div>
+        <p class="texto-carga">{% trans "PROCESANDO TRANSACCIÓN BANCARIA VIRTUAL..." %}</p>
+    </div>
+
+    <div class="contenedor-checkout">
+
+        <div class="panel-formulario">
+            <form id="form-pago" onsubmit="ejecutarProtocoloPago(event)">
+                <h2>1. {% trans "DATOS DE ENVÍO" %}</h2>
+                <div class="grupo-input">
+                    <label>{% trans "NOMBRE COMPLETO" %}</label>
+                    <input type="text" required placeholder="{% trans 'Ej: Viktor Malv' %}">
+                </div>
+                <div class="grupo-input">
+                    <label>{% trans "DIRECCIÓN DE ENTREGA" %}</label>
+                    <input type="text" required placeholder="{% trans 'Calle, Número, Piso...' %}">
+                </div>
+                <div class="fila-doble">
+                    <div class="grupo-input">
+                        <label>{% trans "CIUDAD" %}</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label>{% trans "CÓDIGO POSTAL" %}</label>
+                        <input type="text" required pattern="[0-9]{5}" placeholder="{% trans 'Ej: 28001' %}">
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 40px;">2. {% trans "MÉTODO DE PAGO (SIMULACIÓN SECURE-TEC)" %}</h2>
+                <div class="grupo-input">
+                    <label>{% trans "NÚMERO DE TARJETA" %}</label>
+                    <input type="text" required pattern="[0-9 ]{16,19}" placeholder="xxxx xxxx xxxx xxxx">
+                </div>
+                <div class="fila-doble">
+                    <div class="grupo-input">
+                        <label>{% trans "FECHA CADUCIDAD" %}</label>
+                        <input type="text" required placeholder="MM/AA" pattern="(0[1-9]|1[0-2])\/[2-3][0-9]">
+                    </div>
+                    <div class="grupo-input">
+                        <label>{% trans "CÓDIGO CVV" %}</label>
+                        <input type="text" required pattern="[0-9]{3}" placeholder="xxx">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-confirmar">{% trans "EJECUTAR PAGO SEGURO" %}</button>
+            </form>
+        </div>
+
+        <div class="panel-resumen">
+            <h2>{% trans "RESUMEN DEL PEDIDO" %}</h2>
+            {% for key, value in carrito.items %}
+                <div class="item-resumen">
+                    <span>{{ value.nombre }} (x{{ value.cantidad }})</span>
+                    <span style="color: #00fff0;">{{ value.precio }} €</span>
+                </div>
+            {% endfor %}
+
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; padding-top: 15px; display: flex; justify-content: space-between;">
+                <span style="font-size: 0.9rem; color: #aaa;">{% trans "TOTAL A PAGAR" %}:</span>
+                <span style="font-size: 1.3rem; color: white; font-weight: bold;">{{ total_general }} €</span>
+            </div>
+        </div>
+
+    </div>
+
+   <script>
+        function ejecutarProtocoloPago(event) {
+            // 1. Evitamos que la página se recargue inmediatamente
+            event.preventDefault();
+
+            // 2. CAPTURA DINÁMICA DEL NOMBRE: Guardamos lo que el usuario escribió
+            // Buscamos el input que tiene el marcador "Ej: Viktor Malv"
+            const nombreIngresado = event.target.querySelector('input[placeholder="{% trans 'Ej: Viktor Malv' %}"]').value;
+
+            // Lo guardamos en la memoria local del navegador con la clave 'nombre_comprador'
+            localStorage.setItem('nombre_comprador', nombreIngresado);
+
+            // 3. Mostramos la pantalla de carga holográfica cambiando el display a flex
+            document.getElementById('pantalla-carga').style.display = 'flex';
+
+            // 4. Simulamos un retraso de 2.5 segundos (2500 ms) de conexión bancaria
+            setTimeout(function() {
+                // 5. Redirigimos a la vista de éxito de Django
+                window.location.href = "{% url 'pedido_confirmado' %}";
+            }, 2500);
+        }
+    </script>
+
+</body>
+</html>
